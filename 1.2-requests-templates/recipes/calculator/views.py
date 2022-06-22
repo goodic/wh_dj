@@ -28,3 +28,19 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+
+
+def dish_view(request, dish):
+    template_name = 'calculator/index.html'
+    if dish in DATA.keys():
+        recipe = DATA[dish]
+        servings = request.GET.get('servings')
+        if servings:
+            for key, value in recipe.items():
+                recipe.update({key: value * int(servings)})
+    else:
+        recipe = None
+    context = {
+        'recipe': recipe
+    }
+    return render(request, template_name, context)
