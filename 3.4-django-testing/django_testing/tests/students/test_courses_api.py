@@ -29,11 +29,10 @@ def student_factory():
 @pytest.mark.django_db
 def test_get_course(client, course_factory):
     course = course_factory(_quantity=1)
-    response = client.get('/api/v1/courses/')
+    response = client.get('/api/v1/courses/' + str(course[0].id) + '/')
     assert response.status_code == 200
     data = response.json()
-    assert len(data) == len(course)
-    assert data[0]['name'] == course[0].name
+    assert data['name'] == course[0].name
 
 
 @pytest.mark.django_db
@@ -79,7 +78,7 @@ def test_create_course(client):
 def test_patch_course(client, course_factory):
     course = course_factory(_quantity=1)
     old_name = course[0].name
-    response = client.patch('/api/v1/courses/' + str(course[0].id), data={'name': old_name + 'new_name'})
+    response = client.patch('/api/v1/courses/' + str(course[0].id) + '/', data={'name': old_name + 'new_name'})
     assert response.status_code == 200
     data = response.json()
     assert data[0]['name'] != old_name
