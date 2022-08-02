@@ -5,8 +5,6 @@ from rest_framework.exceptions import ValidationError
 from advertisements.models import Advertisement
 
 
-open_adv_limit = 10
-
 class UserSerializer(serializers.ModelSerializer):
     """Serializer для пользователя."""
 
@@ -43,7 +41,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
         validated_stat = 'OPEN'
-        # TODO: добавьте требуемую валидацию
+        open_adv_limit = 10
         if data.get('status', 'OPEN') == validated_stat:
             open_adv_count = len(Advertisement.objects.filter(status=validated_stat, creator=self.context["request"].user))
             print(open_adv_count)
