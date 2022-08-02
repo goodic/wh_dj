@@ -11,6 +11,11 @@ class AdvertisementViewSet(ModelViewSet):
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
     filterset_class = AdvertisementFilter
-    filterset_fields = ['status']
+#    filterset_fields = ['status']
     permission_classes = [IsOwnerOrReadOnly]
 
+    def get_permissions(self):
+        """Получение прав для действий."""
+        if self.action in ["create", "update", "partial_update"]:
+            return [IsAuthenticated()]
+        return []
