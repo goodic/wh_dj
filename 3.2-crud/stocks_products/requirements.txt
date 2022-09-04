@@ -1,4 +1,6 @@
 django
 djangorestframework
+django-environ
 psycopg2-binary
 django_filter
+gunicorn
